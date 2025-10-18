@@ -13,10 +13,10 @@ public class MuekWindow
     public readonly IntPtr Window;
     public readonly IntPtr Renderer;
     public List<IControl> Children { get; set; } = new();
-    
+
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
-    
+
     /// <summary>
     /// This will create a new window and display it.
     /// </summary>
@@ -28,13 +28,14 @@ public class MuekWindow
         Title = title;
         Width = width;
         Height = height;
-        
+
         if (!SDL.Init(SDL.InitFlags.Video))
         {
             SDL.LogError(SDL.LogCategory.System, $"SDL could not initialize: {SDL.GetError()}");
             return;
         }
-        if (!SDL.CreateWindowAndRenderer(Title, 
+
+        if (!SDL.CreateWindowAndRenderer(Title,
                 Width, Height,
                 SDL.WindowFlags.OpenGL,
                 out Window, out Renderer))
@@ -43,7 +44,7 @@ public class MuekWindow
             return;
         }
     }
-    
+
     /// <summary>
     /// Run the window.
     /// </summary>
@@ -58,12 +59,15 @@ public class MuekWindow
                     Quit();
                     return;
                 }
+
                 Input(e);
             }
+
             Render();
             SDL.Delay(10);
         }
     }
+
     /// <summary>
     /// This will quit the application.
     /// </summary>
@@ -73,7 +77,7 @@ public class MuekWindow
         SDL.DestroyWindow(Window);
         SDL.Quit();
     }
-    
+
     private void Render()
     {
         SDL.SetRenderDrawColor(Renderer, 0, 0, 0, 0);
@@ -85,16 +89,16 @@ public class MuekWindow
         var canvas = SKSurface.Create(info, pixels, pitch).Canvas;
         OnRender?.Invoke(canvas);
         SDL.UnlockTexture(texture);
-        SDL.RenderTexture(Renderer, texture,IntPtr.Zero,IntPtr.Zero);
+        SDL.RenderTexture(Renderer, texture, IntPtr.Zero, IntPtr.Zero);
         SDL.DestroyTexture(texture);
         SDL.RenderPresent(Renderer);
     }
-    
+
     private void Input(SDL.Event e)
     {
         OnInput?.Invoke(e);
     }
-    
+
     public void Add(IControl control)
     {
         Children.Add(control);

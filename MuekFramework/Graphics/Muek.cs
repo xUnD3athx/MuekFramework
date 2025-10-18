@@ -10,6 +10,7 @@ namespace MuekFramework.Graphics;
 public static class Muek
 {
     public delegate void RenderDelegate(SKCanvas c);
+
     public delegate void InputDelegate(SDL.Event e);
 
     /// <summary>
@@ -39,7 +40,7 @@ public static class Muek
         Vertical,
         Horizontal
     }
-    
+
     public enum TextPosition
     {
         TopLeft,
@@ -52,11 +53,12 @@ public static class Muek
         Bottom,
         BottomRight
     }
-    
+
     public class MuekColor
     {
         public readonly SKPaint Color;
-        public readonly byte Red,Green,Blue,Alpha;
+        public readonly byte Red, Green, Blue, Alpha;
+
         /// <summary>
         /// <para>Create a color using RGB.</para>
         /// <para>If you want to use HSL,use <see cref="MuekColor.FromHsl"/> instead.</para>
@@ -82,7 +84,7 @@ public static class Muek
         /// <param name="l">The lightness value of the color.</param>
         /// <param name="a">The alpha value of the color.</param>
         /// <returns>Return the color created</returns>
-        public MuekColor FromHsl(float h, float s, float l,byte a = 255)
+        public MuekColor FromHsl(float h, float s, float l, byte a = 255)
         {
             return new MuekColor(
                 SKColor.FromHsl(h, s, l, a).Red,
@@ -96,11 +98,11 @@ public static class Muek
     public struct MuekColors
     {
         public static readonly MuekColor White = new MuekColor(255, 255, 255);
-        public static readonly MuekColor Black = new MuekColor (0, 0, 0);
+        public static readonly MuekColor Black = new MuekColor(0, 0, 0);
         public static readonly MuekColor Transparent = new MuekColor(255, 255, 255, 0);
         public static readonly MuekColor Grey = new MuekColor(128, 128, 128);
-        public static readonly MuekColor Muek =  new MuekColor (100, 200, 150);
-        public static readonly MuekColor LightMuek = new MuekColor (150, 250, 200);
-        public static readonly MuekColor DarkMuek = new MuekColor (50, 100, 75);
+        public static readonly MuekColor Muek = new MuekColor(100, 200, 150);
+        public static readonly MuekColor LightMuek = new MuekColor(150, 250, 200);
+        public static readonly MuekColor DarkMuek = new MuekColor(50, 100, 75);
     }
 }
