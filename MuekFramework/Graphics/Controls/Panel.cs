@@ -234,6 +234,20 @@ public class Panel : IControl
     }
 
     /// <summary>
+    /// Add custom text to this control.
+    /// </summary>
+    /// <param name="text">The text created.</param>
+    public void AddText(Text text)
+    {
+        if (text.Size.X < 0 || text.Size.Y < 0)
+        {
+            text.Size = Size;
+        }
+
+        Add(text);
+    }
+
+    /// <summary>
     /// Add text to this control.
     /// </summary>
     /// <param name="text">The text created.</param>
@@ -241,10 +255,10 @@ public class Panel : IControl
     /// <param name="fontSize">The font size of the text.Default as 12</param>
     /// <param name="position">The position of the text.Default as <see cref="Muek.TextPosition.Center"/>. </param>
     /// <param name="color">The color of the text.Default as <see cref="Muek.MuekColors.Black"/></param>
-    public void AddText(out Text text, string content, float fontSize = 12,
+    public void AddText(string content, float fontSize = 12,
         Muek.TextPosition position = Muek.TextPosition.Center, Muek.MuekColor? color = null)
     {
-        text = new Text(content, (int)Size.X, (int)Size.Y)
+        var text = new Text(content, (int)Size.X, (int)Size.Y)
         {
             TextPosition = position,
             FontSize = fontSize,

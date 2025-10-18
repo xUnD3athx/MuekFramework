@@ -7,12 +7,13 @@ public class Text : IControl
 {
     public Vector2 Position { get; set; }
     public Vector2 Size { get; set; }
-    
+
     /// <summary>
     /// <para>The scale of the control.This will not change the position and the size of the control.</para>
     /// <para>When using scale in text control,only x value of the scale is enabled.</para>
     /// </summary>
     public Vector2 Scale { get; set; } = Vector2.One;
+
     public Muek.Margin Margin { get; set; } = new(5, 5, 5, 5);
     public Muek.TextPosition TextPosition { get; set; } = Muek.TextPosition.TopLeft;
     public int Opacity { get; set; } = 255;
@@ -24,13 +25,13 @@ public class Text : IControl
     public float FontSize { get; set; } = 12F;
     public Muek.MuekColor Color { get; set; } = Muek.MuekColors.Black;
 
-    public Text(string content,int width, int height, int x = 0, int y = 0)
+    public Text(string content, int width = -1, int height = -1, int x = 0, int y = 0)
     {
         Content = content;
         Position = new Vector2(x, y);
         Size = new Vector2(width, height);
     }
-    
+
     public Muek.RenderDelegate Render()
     {
         return (c =>
@@ -88,11 +89,11 @@ public class Text : IControl
                     align = SKTextAlign.Left;
                     break;
             }
-            
+
             c.DrawText(Content,
                 new SKPoint(textPosition.X, textPosition.Y),
                 align,
-                new SKFont(SKTypeface.FromFamilyName("Source Han Serif SC"),FontSize*Scale.X),
+                new SKFont(SKTypeface.FromFamilyName("Source Han Serif SC"), FontSize * Scale.X),
                 color);
             OnRender?.Invoke(c);
         });
@@ -100,9 +101,6 @@ public class Text : IControl
 
     public Muek.InputDelegate Input()
     {
-        return (e =>
-        {
-            OnInput?.Invoke(e);
-        });
+        return (e => { OnInput?.Invoke(e); });
     }
 }
