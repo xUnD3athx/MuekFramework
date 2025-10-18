@@ -206,7 +206,9 @@ public class Panel : IControl
             if (Orientation == Muek.Orientation.Horizontal)
                 offset = new Vector2(0, c.Position.Y + c.Size.Y + c.Margin.Bottom - Position.Y - Margin.Top);
         }
-        control.Position = new Vector2(Position.X + offset.X + Margin.Left, Position.Y + offset.Y + Margin.Top);
+        control.Position = new Vector2(
+            control.Position.X + Position.X + offset.X + Margin.Left,
+            control.Position.Y + Position.Y + offset.Y + Margin.Top);
         
         OnRender += control.Render();
         OnInput += control.Input();
