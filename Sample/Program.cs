@@ -24,11 +24,15 @@ var helloButton = new Button(Muek.MuekColors.Muek, 200, 200, 300, 200)
     PressedColor = Muek.MuekColors.DarkMuek,
 };
 mainPanel.Add(helloButton);
+helloButton.AddText("Hello", 24F);
 helloButton.OnClick += () =>
 {
-    if (helloButton.Children.Count == 0) helloButton.AddText(customText);
-    else customText.Content = $"{count++} clicked";
-    // if (helloButton.Children.Count == 0) helloButton.AddText("Hello", 24F);
+    if (count == 0)
+    {
+        helloButton.Clear();
+        helloButton.AddText(customText);
+    }
+    customText.Content = $"{++count} clicked";
 };
 
 window.Run();
