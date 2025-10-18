@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using MuekFramework.Graphics.Controls;
+﻿using MuekFramework.Graphics.Controls;
 using SDL3;
 using SkiaSharp;
 
@@ -41,7 +40,6 @@ public class MuekWindow
                 out Window, out Renderer))
         {
             SDL.LogError(SDL.LogCategory.Application, $"Error creating window: {SDL.GetError()}");
-            return;
         }
     }
 

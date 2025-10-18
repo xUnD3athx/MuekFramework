@@ -36,7 +36,7 @@ public class Text : IControl
     {
         return (c =>
         {
-            SKTextAlign align = SKTextAlign.Left;
+            SKTextAlign align;
             var color = new SKPaint()
             {
                 Color = new SKColor(Color.Red, Color.Green, Color.Blue, (byte)Opacity)

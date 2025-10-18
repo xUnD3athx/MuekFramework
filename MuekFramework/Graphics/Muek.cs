@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Markup;
-using JetBrains.Annotations;
-using SDL3;
+﻿using SDL3;
 using SkiaSharp;
 
 namespace MuekFramework.Graphics;
@@ -97,12 +93,12 @@ public static class Muek
 
     public struct MuekColors
     {
-        public static readonly MuekColor White = new MuekColor(255, 255, 255);
-        public static readonly MuekColor Black = new MuekColor(0, 0, 0);
-        public static readonly MuekColor Transparent = new MuekColor(255, 255, 255, 0);
-        public static readonly MuekColor Grey = new MuekColor(128, 128, 128);
-        public static readonly MuekColor Muek = new MuekColor(100, 200, 150);
-        public static readonly MuekColor LightMuek = new MuekColor(150, 250, 200);
-        public static readonly MuekColor DarkMuek = new MuekColor(50, 100, 75);
+        public static readonly MuekColor White = new();
+        public static readonly MuekColor Black = new(0, 0, 0);
+        public static readonly MuekColor Transparent = new(255, 255, 255, 0);
+        public static readonly MuekColor Grey = new(128, 128, 128);
+        public static readonly MuekColor Muek = new(100, 200, 150);
+        public static readonly MuekColor LightMuek = new(150, 250, 200);
+        public static readonly MuekColor DarkMuek = new(50, 100, 75);
     }
 }

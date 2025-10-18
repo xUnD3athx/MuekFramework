@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Numerics;
+﻿using System.Numerics;
 using SDL3;
 using SkiaSharp;
 
@@ -21,22 +20,22 @@ public class Panel : IControl
 
     public Muek.MuekColor BorderColor { get; set; } = Muek.MuekColors.Transparent;
     public Vector2 BorderRadius { get; set; } = Vector2.Zero;
-    public float BorderThickness { get; set; } = 0;
+    public float BorderThickness { get; set; }
     public int Opacity { get; set; } = 255;
     public int RenderLayer { get; set; }
     public float AnimationSpeed { get; set; } = .05f;
-    public Vector2 HoverScale { get; set; } = new Vector2(1f, 1f);
+    public Vector2 HoverScale { get; set; } = new(1f, 1f);
     public bool IsAnimationDisabled { get; set; } = true;
     public List<IControl> Children { get; set; } = new();
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
-    protected bool IsHovering { get; set; } = false;
-    protected bool IsPressed { get; set; } = false;
+    protected bool IsHovering { get; set; }
+    protected bool IsPressed { get; set; }
 
     /// <summary>
     /// Init the panel and render it on the window.
     /// </summary>
-    /// <param name="renderColor">The color of the panel.</param>
+    /// <param name="color">The color of the panel.</param>
     /// <param name="width">The width of the panel.</param>
     /// <param name="height">The height of the panel.</param>
     /// <param name="x">The x position of the panel.Default value 0.</param>
@@ -196,7 +195,7 @@ public class Panel : IControl
 
     /// <summary>
     /// <para>Add a new control as a child of this.</para>
-    /// <para>When add text as child,use <see cref="AddText"/> instead.</para>
+    /// <para>When add text as child,use <see cref="AddText(Text)"/> or <see cref="AddText(string,float,Muek.TextPosition,Muek.MuekColor?)"/> instead.</para>
     /// </summary>
     /// <param name="control">The new control.</param>
     public void Add(IControl control)

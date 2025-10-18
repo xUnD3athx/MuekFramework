@@ -29,7 +29,7 @@ public interface IControl
     /// <summary>
     /// The children of the control.
     /// </summary>
-    public List<IControl> Children { get; set; }
+    public List<IControl>? Children { get; set; }
     public Muek.RenderDelegate Render();
     public Muek.InputDelegate Input();
     public event Muek.RenderDelegate? OnRender;

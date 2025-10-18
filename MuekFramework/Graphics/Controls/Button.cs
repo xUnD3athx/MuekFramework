@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using SDL3;
 
 namespace MuekFramework.Graphics.Controls;
 
@@ -11,7 +10,7 @@ public class Button : Panel
 
     public delegate void ButtonDelegate();
 
-    public event ButtonDelegate OnClick;
+    public event ButtonDelegate? OnClick;
 
     public Button(Muek.MuekColor color, int width, int height, int x = 0, int y = 0) : base(color, width, height, x, y)
     {
@@ -24,16 +23,6 @@ public class Button : Panel
         HoverScale = new Vector2(1.05f, 1.05f);
         IsAnimationDisabled = false;
         AnimationSpeed = .1f;
-    }
-
-    protected override void OnHover()
-    {
-        base.OnHover();
-    }
-
-    protected override void OnLeave()
-    {
-        base.OnLeave();
     }
 
     protected override void OnPointerPressed()
