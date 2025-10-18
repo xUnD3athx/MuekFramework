@@ -97,8 +97,23 @@ public static class Muek
         public static readonly MuekColor Black = new(0, 0, 0);
         public static readonly MuekColor Transparent = new(255, 255, 255, 0);
         public static readonly MuekColor Grey = new(128, 128, 128);
+        /// <summary>
+        /// The theme color of muek.
+        /// </summary>
         public static readonly MuekColor Muek = new(100, 200, 150);
         public static readonly MuekColor LightMuek = new(150, 250, 200);
         public static readonly MuekColor DarkMuek = new(50, 100, 75);
+        /// <summary>
+        /// The theme red color of muek.Used for warnings or delete buttons.
+        /// </summary>
+        public static readonly MuekColor MuekRed =  new(220, 60, 60);
+        public static readonly MuekColor LightMuekRed =  new(250, 120, 120);
+        public static readonly MuekColor DarkMuekRed = new(100, 30, 20);
+        /// <summary>
+        /// The theme blue color of muek.
+        /// </summary>
+        public static readonly MuekColor MuekBlue = new(100, 140, 250);
+        public static readonly MuekColor LightMuekBlue = new(150, 200, 250);
+        public static readonly MuekColor DarkMuekBlue = new(20,50,100);
     }
 }
