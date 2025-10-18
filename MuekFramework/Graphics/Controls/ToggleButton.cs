@@ -16,7 +16,6 @@ public class ToggleButton : Button
         {
             if (IsChecked) OnChecked();
             else OnUnchecked();
-            Console.WriteLine(IsChecked);
         });
     }
 
