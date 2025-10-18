@@ -250,7 +250,6 @@ public class Panel : IControl
     /// <summary>
     /// Add text to this control.
     /// </summary>
-    /// <param name="text">The text created.</param>
     /// <param name="content">The content of the text.</param>
     /// <param name="fontSize">The font size of the text.Default as 12</param>
     /// <param name="position">The position of the text.Default as <see cref="Muek.TextPosition.Center"/>. </param>
@@ -265,6 +264,21 @@ public class Panel : IControl
         };
         if (color != null) text.Color = color;
         Add(text);
+    }
+
+    public void Remove(IControl control)
+    {
+        Children.Remove(control);
+        OnRender -= control.Render();
+        OnInput -= control.Input();
+    }
+
+    public void Clear()
+    {
+        for (int i = 0; i < Children.Count; i++)
+        {
+            Remove(Children[i]);
+        }
     }
 
     public void TransitionTo(Vector2 targetScale, float animationSpeed = .5f)
