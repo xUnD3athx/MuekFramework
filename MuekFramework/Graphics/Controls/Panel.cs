@@ -14,11 +14,11 @@ public class Panel : IControl
     public Vector2 Size { get; set; }
     public Vector2 Scale { get; set; } = Vector2.One;
     public Muek.Margin Margin { get; set; } = new(5, 5, 5, 5);
-    public Muek.Orientation Orientation { get; set; } =  Muek.Orientation.Vertical;
+    public Muek.Orientation Orientation { get; set; } = Muek.Orientation.Vertical;
     public Muek.MuekColor Color { get; set; }
     protected Muek.MuekColor RenderColor { get; set; }
     public Muek.MuekColor HoverColor { get; set; }
-    
+
     public Muek.MuekColor BorderColor { get; set; } = Muek.MuekColors.Transparent;
     public Vector2 BorderRadius { get; set; } = Vector2.Zero;
     public float BorderThickness { get; set; } = 0;
@@ -30,8 +30,8 @@ public class Panel : IControl
     public List<IControl> Children { get; set; } = new();
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
-    protected bool IsHovering {get; set;} = false;
-    protected bool IsPressed {get; set;} = false;
+    protected bool IsHovering { get; set; } = false;
+    protected bool IsPressed { get; set; } = false;
 
     /// <summary>
     /// Init the panel and render it on the window.
@@ -41,7 +41,7 @@ public class Panel : IControl
     /// <param name="height">The height of the panel.</param>
     /// <param name="x">The x position of the panel.Default value 0.</param>
     /// <param name="y">The y position of the panel.Default value 0.</param>
-    public Panel(Muek.MuekColor color,int width, int height, int x = 0, int y = 0)
+    public Panel(Muek.MuekColor color, int width, int height, int x = 0, int y = 0)
     {
         Size = new Vector2(width, height);
         Position = new Vector2(x, y);
@@ -49,7 +49,7 @@ public class Panel : IControl
         HoverColor = Color;
         RenderColor = Color;
     }
-    
+
     public Muek.RenderDelegate Render()
     {
         return (c) =>
@@ -57,18 +57,20 @@ public class Panel : IControl
             SKPaint color, borderColor;
             //Set Props
             {
-                color = new SKPaint() { Color = new SKColor(RenderColor.Red, RenderColor.Green, RenderColor.Blue, (byte)Opacity) };
+                color = new SKPaint()
+                    { Color = new SKColor(RenderColor.Red, RenderColor.Green, RenderColor.Blue, (byte)Opacity) };
 
                 borderColor = new SKPaint()
                 {
                     Color = new SKColor(BorderColor.Red, BorderColor.Green, BorderColor.Blue,
                         (byte)Opacity)
                 };
-                if(BorderThickness==0)
+                if (BorderThickness == 0)
                 {
                     borderColor.Color = SKColors.Transparent;
                 }
-                borderColor.StrokeWidth =  BorderThickness;
+
+                borderColor.StrokeWidth = BorderThickness;
                 borderColor.IsStroke = true;
                 color.IsAntialias = true;
                 borderColor.IsAntialias = true;
@@ -88,11 +90,11 @@ public class Panel : IControl
                 //Border Render
                 c.DrawRoundRect(
                     Position.X - Size.X * (Scale.X - 1) / 2 - BorderThickness / 2 + Margin.Left + 1,
-                    Position.Y - Size.Y * (Scale.Y - 1) / 2 -  BorderThickness / 2 + Margin.Top + 1,
+                    Position.Y - Size.Y * (Scale.Y - 1) / 2 - BorderThickness / 2 + Margin.Top + 1,
                     Size.X * Scale.X + BorderThickness - 2,
-                    Size.Y * Scale.Y +  BorderThickness - 2,
+                    Size.Y * Scale.Y + BorderThickness - 2,
                     BorderRadius.X + BorderThickness / 2,
-                    BorderRadius.Y +  BorderThickness / 2,
+                    BorderRadius.Y + BorderThickness / 2,
                     borderColor
                 );
             }
@@ -108,9 +110,9 @@ public class Panel : IControl
                 }
                 else OnLeave();
             }
-            if(IsPressed) OnPointerPressed();
+            if (IsPressed) OnPointerPressed();
             OnRender?.Invoke(c);
-            
+
             //Keep hovered item on top
             {
                 foreach (var child in Children)
@@ -124,7 +126,7 @@ public class Panel : IControl
             }
         };
     }
-    
+
     public Muek.InputDelegate Input()
     {
         return (e) =>
@@ -138,6 +140,7 @@ public class Panel : IControl
             {
                 if (IsPressed) OnPointerReleased();
             }
+
             OnInput?.Invoke(e);
         };
     }
@@ -151,8 +154,8 @@ public class Panel : IControl
         RenderLayer = 1;
         var targetColor = HoverColor;
         var targetScale = HoverScale;
-        TransitionTo(targetColor,AnimationSpeed);
-        TransitionTo(targetScale,AnimationSpeed);
+        TransitionTo(targetColor, AnimationSpeed);
+        TransitionTo(targetScale, AnimationSpeed);
     }
 
     /// <summary>
@@ -164,10 +167,10 @@ public class Panel : IControl
         RenderLayer = 0;
         var targetColor = Color;
         var targetScale = Vector2.One;
-        TransitionTo(targetColor,AnimationSpeed);
-        TransitionTo(targetScale,AnimationSpeed);
+        TransitionTo(targetColor, AnimationSpeed);
+        TransitionTo(targetScale, AnimationSpeed);
     }
-    
+
     /// <summary>
     /// When clicked the control.
     /// </summary>
@@ -175,12 +178,14 @@ public class Panel : IControl
     {
         IsPressed = true;
     }
+
     /// <summary>
     /// When pressed the control.
     /// </summary>
     protected virtual void OnPointerPressed()
     {
     }
+
     /// <summary>
     /// When released the control.
     /// </summary>
@@ -200,19 +205,21 @@ public class Panel : IControl
         Vector2 offset = default;
         if (Children.Count > 1)
         {
-            var c =  Children[Children.IndexOf(control) - 1];
+            var c = Children[Children.IndexOf(control) - 1];
             if (Orientation == Muek.Orientation.Vertical)
                 offset = new Vector2(c.Position.X + c.Size.X + c.Margin.Right - Position.X - Margin.Left, 0);
             if (Orientation == Muek.Orientation.Horizontal)
                 offset = new Vector2(0, c.Position.Y + c.Size.Y + c.Margin.Bottom - Position.Y - Margin.Top);
         }
+
         control.Position = new Vector2(
             control.Position.X + Position.X + offset.X + Margin.Left,
             control.Position.Y + Position.Y + offset.Y + Margin.Top);
-        
+
         OnRender += control.Render();
         OnInput += control.Input();
     }
+
     /// <summary>
     /// Add multiple new controls as children of this.
     /// </summary>
@@ -220,7 +227,24 @@ public class Panel : IControl
     /// <seealso cref="Add(IControl)"/>
     public void Add(List<IControl> controls)
     {
-        foreach (var c in controls) { Add(c); }
+        foreach (var c in controls)
+        {
+            Add(c);
+        }
+    }
+
+    /// <summary>
+    /// Add custom text to this control.
+    /// </summary>
+    /// <param name="text">The text created.</param>
+    public void AddText(Text text)
+    {
+        if (text.Size.X < 0 || text.Size.Y < 0)
+        {
+            text.Size = Size;
+        }
+
+        Add(text);
     }
 
     /// <summary>
@@ -231,14 +255,15 @@ public class Panel : IControl
     /// <param name="fontSize">The font size of the text.Default as 12</param>
     /// <param name="position">The position of the text.Default as <see cref="Muek.TextPosition.Center"/>. </param>
     /// <param name="color">The color of the text.Default as <see cref="Muek.MuekColors.Black"/></param>
-    public void AddText(out Text text,string content,float fontSize = 12, Muek.TextPosition position = Muek.TextPosition.Center, Muek.MuekColor? color = null)
+    public void AddText(string content, float fontSize = 12,
+        Muek.TextPosition position = Muek.TextPosition.Center, Muek.MuekColor? color = null)
     {
-        text = new Text(content, (int)Size.X, (int)Size.Y)
+        var text = new Text(content, (int)Size.X, (int)Size.Y)
         {
-            TextPosition = position ,
+            TextPosition = position,
             FontSize = fontSize,
         };
-        if(color != null) text.Color = color;
+        if (color != null) text.Color = color;
         Add(text);
     }
 
@@ -249,7 +274,7 @@ public class Panel : IControl
 
     public void TransitionTo(Muek.MuekColor targetColor, float animationSpeed = .5f)
     {
-        if(!IsAnimationDisabled)
+        if (!IsAnimationDisabled)
         {
             RenderColor = new Muek.MuekColor(
                 (byte)float.Lerp(RenderColor.Red, targetColor.Red, animationSpeed),
