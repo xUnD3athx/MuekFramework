@@ -3,6 +3,7 @@ using MuekFramework.Graphics;
 using MuekFramework.Graphics.Controls;
 
 var count = 0;
+var lockCount = false;
 
 var customText = new Text("0 click")
 {
@@ -15,10 +16,11 @@ var mainPanel = new Panel(Muek.MuekColors.White, 800, 600, 100, 100)
 {
     BorderRadius = new Vector2(10F),
     IsAnimationDisabled = false,
-    HoverScale = new Vector2(1.1F)
+    AnimationSpeed = .05F,
+    HoverScale = new Vector2(1.05F)
 };
 window.Add(mainPanel);
-var helloButton = new Button(Muek.MuekColors.Muek, 200, 200, 300, 200)
+var helloButton = new Button(Muek.MuekColors.Muek, 200, 200)
 {
     HoverColor = Muek.MuekColors.LightMuek,
     PressedColor = Muek.MuekColors.DarkMuek,
@@ -32,7 +34,23 @@ helloButton.OnClick += () =>
         helloButton.Clear();
         helloButton.AddText(customText);
     }
-    customText.Content = $"{++count} clicked";
+    if (!lockCount) customText.Content = $"{++count} clicked";
+};
+var lockButton = new ToggleButton(Muek.MuekColors.MuekBlue, 100, 100)
+{
+    HoverColor = Muek.MuekColors.LightMuekBlue,
+    PressedColor = Muek.MuekColors.DarkMuekBlue,
+    CheckedColor = Muek.MuekColors.MuekRed
+};
+mainPanel.Add(lockButton);
+lockButton.AddText("Lock", 24F);
+lockButton.OnCheck += () =>
+{
+    lockCount = true;
+};
+lockButton.OnUncheck += () =>
+{
+    lockCount = false;
 };
 
 window.Run();
