@@ -1,4 +1,5 @@
-﻿using SDL3;
+﻿using System.Drawing;
+using SDL3;
 using SkiaSharp;
 
 namespace MuekFramework.Graphics;
@@ -52,7 +53,6 @@ public static class Muek
 
     public class MuekColor
     {
-        public readonly SKPaint Color;
         public readonly byte Red, Green, Blue, Alpha;
 
         /// <summary>
@@ -65,7 +65,6 @@ public static class Muek
         /// <param name="a">The alpha value of the color.From 0 to 255.Default with value 255.</param>
         public MuekColor(byte r = 255, byte g = 255, byte b = 255, byte a = 255)
         {
-            Color = new SKPaint() { Color = new SKColor(r, g, b, a) };
             Red = r;
             Green = g;
             Blue = b;
@@ -88,6 +87,7 @@ public static class Muek
                 SKColor.FromHsl(h, s, l, a).Blue,
                 SKColor.FromHsl(h, s, l, a).Alpha
             );
+            
         }
     }
 
@@ -98,22 +98,43 @@ public static class Muek
         public static readonly MuekColor Transparent = new(255, 255, 255, 0);
         public static readonly MuekColor Grey = new(128, 128, 128);
         /// <summary>
+        /// <font color="rgb(100,200,150)">Muek</font><br/>
         /// The theme color of muek.
         /// </summary>
         public static readonly MuekColor Muek = new(100, 200, 150);
+        /// <summary>
+        /// <font color="rgb(150,250,200)">LightMuek</font>
+        /// </summary>
         public static readonly MuekColor LightMuek = new(150, 250, 200);
+        /// <summary>
+        /// <font color="rgb(50, 100, 75)">DarkMuek</font>
+        /// </summary>
         public static readonly MuekColor DarkMuek = new(50, 100, 75);
         /// <summary>
+        /// <font color="rgb(220, 60, 60)">MuekRed</font><br/>
         /// The theme red color of muek.Used for warnings or delete buttons.
         /// </summary>
         public static readonly MuekColor MuekRed =  new(220, 60, 60);
+        /// <summary>
+        /// <font color="rgb(250, 120, 120)">LightMuekRed</font>
+        /// </summary>
         public static readonly MuekColor LightMuekRed =  new(250, 120, 120);
+        /// <summary>
+        /// <font color="rgb(100, 30, 20)">DarkMuekRed</font>
+        /// </summary>
         public static readonly MuekColor DarkMuekRed = new(100, 30, 20);
         /// <summary>
+        /// <font color="rgb(100, 140, 250)">MuekBlue</font><br/>
         /// The theme blue color of muek.
         /// </summary>
         public static readonly MuekColor MuekBlue = new(100, 140, 250);
+        /// <summary>
+        /// <font color="rgb(150, 200, 250)">LightMuekBlue</font>
+        /// </summary>
         public static readonly MuekColor LightMuekBlue = new(150, 200, 250);
+        /// <summary>
+        /// <font color="rgb(20,50,100)">DarkMuekBlue</font>
+        /// </summary>
         public static readonly MuekColor DarkMuekBlue = new(20,50,100);
     }
 }
