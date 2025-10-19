@@ -3,7 +3,6 @@ using MuekFramework.Graphics;
 using MuekFramework.Graphics.Controls;
 
 var count = 0;
-var lockCount = false;
 
 var customText = new Text("0 click")
 {
@@ -34,7 +33,7 @@ helloButton.OnClick += () =>
         helloButton.Clear();
         helloButton.AddText(customText);
     }
-    if (!lockCount) customText.Content = $"{++count} clicked";
+    customText.Content = $"{++count} clicked";
 };
 var lockButton = new ToggleButton(Muek.MuekColors.MuekBlue, 100, 100)
 {
@@ -46,11 +45,11 @@ mainPanel.Add(lockButton);
 lockButton.AddText("Lock", 24F);
 lockButton.OnCheck += () =>
 {
-    lockCount = true;
+    helloButton.IsDisabled = true;
 };
 lockButton.OnUncheck += () =>
 {
-    lockCount = false;
+    helloButton.IsDisabled = false;
 };
 
 window.Run();
