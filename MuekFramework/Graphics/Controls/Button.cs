@@ -4,9 +4,11 @@ namespace MuekFramework.Graphics.Controls;
 
 public class Button : Panel
 {
+    public bool IsDisabled { get; set; }
     public Vector2 ClickedScale { get; set; } = new Vector2(0.95f, 0.95f);
     public Vector2 PressedScale { get; set; } = new Vector2(0.98f, 0.98f);
     public Muek.MuekColor PressedColor { get; set; }
+    public Muek.MuekColor DisabledColor { get; set; } = Muek.MuekColors.MuekGrey;
 
     public delegate void ButtonDelegate();
 
@@ -23,6 +25,24 @@ public class Button : Panel
         HoverScale = new Vector2(1.05f, 1.05f);
         IsAnimationDisabled = false;
         AnimationSpeed = .1f;
+        OnRender += _ =>
+        {
+            if (!IsDisabled) return;
+            var targetColor = DisabledColor;
+            TransitionTo(targetColor,AnimationSpeed);
+        };
+    }
+
+    protected override void OnLeave()
+    {
+        if (!IsDisabled) base.OnLeave();
+        else
+        {
+            IsHovering = false;
+            RenderLayer = 0;
+            var targetScale = Vector2.One;
+            TransitionTo(targetScale, AnimationSpeed);
+        }
     }
 
     protected override void OnPointerPressed()
@@ -45,6 +65,7 @@ public class Button : Panel
 
     protected override void OnPointerClicked()
     {
+        if (IsDisabled) return;
         base.OnPointerClicked();
         Scale = ClickedScale;
         OnClick?.Invoke();
