@@ -15,7 +15,7 @@ public class Text : IControl
     public Vector2 Scale { get; set; } = Vector2.One;
 
     public Muek.Margin Margin { get; set; } = new(5, 5, 5, 5);
-    public Muek.TextPosition TextPosition { get; set; } = Muek.TextPosition.TopLeft;
+    public Muek.ContentPosition ContentPosition { get; set; } = Muek.ContentPosition.TopLeft;
     public int Opacity { get; set; } = 255;
     public int RenderLayer { get; set; }
     public List<IControl>? Children { get; set; } = null;
@@ -46,41 +46,41 @@ public class Text : IControl
             float hCenter = Size.Y / 2 - FontSize / 1.5f;
             float right = Size.X;
             float bottom = Size.Y - FontSize * 1.5f;
-            switch (TextPosition)
+            switch (ContentPosition)
             {
-                case Muek.TextPosition.TopLeft:
+                case Muek.ContentPosition.TopLeft:
                     textPosition = new(Position.X, Position.Y + FontSize);
                     align = SKTextAlign.Left;
                     break;
-                case Muek.TextPosition.Top:
+                case Muek.ContentPosition.Top:
                     textPosition = new(Position.X + vCenter, Position.Y + FontSize);
                     align = SKTextAlign.Center;
                     break;
-                case Muek.TextPosition.TopRight:
+                case Muek.ContentPosition.TopRight:
                     textPosition = new(Position.X + right, Position.Y + FontSize);
                     align = SKTextAlign.Right;
                     break;
-                case Muek.TextPosition.Left:
+                case Muek.ContentPosition.Left:
                     textPosition = new(Position.X, Position.Y + FontSize + hCenter);
                     align = SKTextAlign.Left;
                     break;
-                case Muek.TextPosition.Center:
+                case Muek.ContentPosition.Center:
                     textPosition = new(Position.X + vCenter, Position.Y + FontSize + hCenter);
                     align = SKTextAlign.Center;
                     break;
-                case Muek.TextPosition.Right:
+                case Muek.ContentPosition.Right:
                     textPosition = new(Position.X + right, Position.Y + FontSize + hCenter);
                     align = SKTextAlign.Right;
                     break;
-                case Muek.TextPosition.BottomLeft:
+                case Muek.ContentPosition.BottomLeft:
                     textPosition = new(Position.X, Position.Y + FontSize + bottom);
                     align = SKTextAlign.Left;
                     break;
-                case Muek.TextPosition.Bottom:
+                case Muek.ContentPosition.Bottom:
                     textPosition = new(Position.X + vCenter, Position.Y + FontSize + bottom);
                     align = SKTextAlign.Center;
                     break;
-                case Muek.TextPosition.BottomRight:
+                case Muek.ContentPosition.BottomRight:
                     textPosition = new(Position.X + right, Position.Y + FontSize + bottom);
                     align = SKTextAlign.Right;
                     break;

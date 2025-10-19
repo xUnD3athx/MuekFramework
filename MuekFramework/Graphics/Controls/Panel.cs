@@ -195,7 +195,7 @@ public class Panel : IControl
 
     /// <summary>
     /// <para>Add a new control as a child of this.</para>
-    /// <para>When add text as child,use <see cref="AddText(Text)"/> or <see cref="AddText(string,float,Muek.TextPosition,Muek.MuekColor?)"/> instead.</para>
+    /// <para>When add text as child,use <see cref="AddText(Text)"/> or <see cref="AddText(string,float,Muek.ContentPosition,Muek.MuekColor?)"/> instead.</para>
     /// </summary>
     /// <param name="control">The new control.</param>
     public void Add(IControl control)
@@ -251,14 +251,14 @@ public class Panel : IControl
     /// </summary>
     /// <param name="content">The content of the text.</param>
     /// <param name="fontSize">The font size of the text.Default as 12</param>
-    /// <param name="position">The position of the text.Default as <see cref="Muek.TextPosition.Center"/>. </param>
+    /// <param name="position">The position of the text.Default as <see cref="Muek.ContentPosition.Center"/>. </param>
     /// <param name="color">The color of the text.Default as <see cref="Muek.MuekColors.Black"/></param>
     public void AddText(string content, float fontSize = 12,
-        Muek.TextPosition position = Muek.TextPosition.Center, Muek.MuekColor? color = null)
+        Muek.ContentPosition position = Muek.ContentPosition.Center, Muek.MuekColor? color = null)
     {
         var text = new Text(content, (int)Size.X, (int)Size.Y)
         {
-            TextPosition = position,
+            ContentPosition = position,
             FontSize = fontSize,
         };
         if (color != null) text.Color = color;

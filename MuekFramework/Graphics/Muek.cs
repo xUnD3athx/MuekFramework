@@ -38,7 +38,7 @@ public static class Muek
         Horizontal
     }
 
-    public enum TextPosition
+    public enum ContentPosition
     {
         TopLeft,
         Top,
