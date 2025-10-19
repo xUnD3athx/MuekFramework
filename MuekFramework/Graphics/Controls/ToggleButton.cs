@@ -27,9 +27,12 @@ public class ToggleButton : Button
 
     protected override void OnLeave()
     {
-        IsHovering = false;
-        RenderLayer = 0;
         if (!IsChecked) base.OnLeave();
+        else
+        {
+            IsHovering = false;
+            RenderLayer = 0;
+        }
         
     }
 
