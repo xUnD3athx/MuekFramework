@@ -136,5 +136,10 @@ public static class Muek
         /// <font color="rgb(20,50,100)">DarkMuekBlue</font>
         /// </summary>
         public static readonly MuekColor DarkMuekBlue = new(20,50,100);
+        /// <summary>
+        /// <font color="rgb(100,110,105)">MuekGery</font><br/>
+        /// The theme grey color of muek.Used for disabled controls.
+        /// </summary>
+        public static readonly MuekColor MuekGrey = new(100,110,105);
     }
 }
