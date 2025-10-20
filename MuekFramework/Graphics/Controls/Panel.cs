@@ -12,7 +12,7 @@ public class Panel : IControl
     public Vector2 Position { get; set; }
     public Vector2 Size { get; set; }
     public Vector2 Scale { get; set; } = Vector2.One;
-    public Muek.Margin Margin { get; set; } = new(5, 5, 5, 5);
+    public Muek.Margin Margin { get; set; } = new(5);
     public Muek.Orientation Orientation { get; set; } = Muek.Orientation.Vertical;
     public Muek.MuekColor Color { get; set; }
     protected Muek.MuekColor RenderColor { get; set; }
@@ -110,6 +110,7 @@ public class Panel : IControl
                 else OnLeave();
             }
             if (IsPressed) OnPointerPressed();
+            AlignChildren();
             OnRender?.Invoke(c);
 
             //Keep hovered item on top
@@ -193,30 +194,36 @@ public class Panel : IControl
         IsPressed = false;
     }
 
+    private void AlignChildren()
+    {
+        foreach (var control in Children)
+        {
+            Vector2 offset = default;
+            if (Children.IndexOf(control) > 0)
+            {
+                var c = Children[Children.IndexOf(control) - 1];
+                if (Orientation == Muek.Orientation.Vertical)
+                    offset = new Vector2(c.Position.X + c.Size.X + c.Margin.Right - Position.X - Margin.Left, 0);
+                if (Orientation == Muek.Orientation.Horizontal)
+                    offset = new Vector2(0, c.Position.Y + c.Size.Y + c.Margin.Bottom - Position.Y - Margin.Top);
+            }
+            control.Position = new Vector2(
+                Position.X + offset.X + Margin.Left,
+                Position.Y + offset.Y + Margin.Top);
+        }
+    }
+
     /// <summary>
     /// <para>Add a new control as a child of this.</para>
     /// <para>When add text as child,use <see cref="AddText(Text)"/> or <see cref="AddText(string,float,Muek.ContentPosition,Muek.MuekColor?)"/> instead.</para>
     /// </summary>
     /// <param name="control">The new control.</param>
-    public void Add(IControl control)
+    public Panel Add(IControl control)
     {
         Children.Add(control);
-        Vector2 offset = default;
-        if (Children.Count > 1)
-        {
-            var c = Children[Children.IndexOf(control) - 1];
-            if (Orientation == Muek.Orientation.Vertical)
-                offset = new Vector2(c.Position.X + c.Size.X + c.Margin.Right - Position.X - Margin.Left, 0);
-            if (Orientation == Muek.Orientation.Horizontal)
-                offset = new Vector2(0, c.Position.Y + c.Size.Y + c.Margin.Bottom - Position.Y - Margin.Top);
-        }
-
-        control.Position = new Vector2(
-            control.Position.X + Position.X + offset.X + Margin.Left,
-            control.Position.Y + Position.Y + offset.Y + Margin.Top);
-
         OnRender += control.Render();
         OnInput += control.Input();
+        return this;
     }
 
     /// <summary>
@@ -224,19 +231,20 @@ public class Panel : IControl
     /// </summary>
     /// <param name="controls">The list of new controls.</param>
     /// <seealso cref="Add(IControl)"/>
-    public void Add(List<IControl> controls)
+    public Panel Add(List<IControl> controls)
     {
         foreach (var c in controls)
         {
             Add(c);
         }
+        return this;
     }
 
     /// <summary>
     /// Add custom text to this control.
     /// </summary>
     /// <param name="text">The text created.</param>
-    public void AddText(Text text)
+    public Panel AddText(Text text)
     {
         if (text.Size.X < 0 || text.Size.Y < 0)
         {
@@ -244,6 +252,7 @@ public class Panel : IControl
         }
 
         Add(text);
+        return this;
     }
 
     /// <summary>
@@ -253,7 +262,7 @@ public class Panel : IControl
     /// <param name="fontSize">The font size of the text.Default as 12</param>
     /// <param name="position">The position of the text.Default as <see cref="Muek.ContentPosition.Center"/>. </param>
     /// <param name="color">The color of the text.Default as <see cref="Muek.MuekColors.Black"/></param>
-    public void AddText(string content, float fontSize = 12,
+    public Panel AddText(string content, float fontSize = 12,
         Muek.ContentPosition position = Muek.ContentPosition.Center, Muek.MuekColor? color = null)
     {
         var text = new Text(content, (int)Size.X, (int)Size.Y)
@@ -263,6 +272,7 @@ public class Panel : IControl
         };
         if (color != null) text.Color = color;
         Add(text);
+        return this;
     }
 
     public void Remove(IControl control)

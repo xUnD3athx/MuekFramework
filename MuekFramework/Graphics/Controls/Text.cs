@@ -14,7 +14,7 @@ public class Text : IControl
     /// </summary>
     public Vector2 Scale { get; set; } = Vector2.One;
 
-    public Muek.Margin Margin { get; set; } = new(5, 5, 5, 5);
+    public Muek.Margin Margin { get; set; } = new(5);
     public Muek.ContentPosition ContentPosition { get; set; } = Muek.ContentPosition.TopLeft;
     public int Opacity { get; set; } = 255;
     public int RenderLayer { get; set; }

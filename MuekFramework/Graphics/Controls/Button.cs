@@ -5,8 +5,8 @@ namespace MuekFramework.Graphics.Controls;
 public class Button : Panel
 {
     public bool IsDisabled { get; set; }
-    public Vector2 ClickedScale { get; set; } = new Vector2(0.95f, 0.95f);
-    public Vector2 PressedScale { get; set; } = new Vector2(0.98f, 0.98f);
+    public Vector2 ClickedScale { get; set; } = new(0.95f, 0.95f);
+    public Vector2 PressedScale { get; set; } = new(0.98f, 0.98f);
     public Muek.MuekColor PressedColor { get; set; }
     public Muek.MuekColor DisabledColor { get; set; } = Muek.MuekColors.MuekGrey;
 

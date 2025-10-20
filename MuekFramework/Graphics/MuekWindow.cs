@@ -103,4 +103,12 @@ public class MuekWindow
         OnRender += control.Render();
         OnInput += control.Input();
     }
+
+    public void Add(List<IControl> controls)
+    {
+        foreach (var control in controls)
+        {
+            Add(control);
+        }
+    }
 }
