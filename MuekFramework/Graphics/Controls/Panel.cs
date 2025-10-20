@@ -54,6 +54,14 @@ public class Panel : IControl
     {
         return (c) =>
         {
+            c.Save();
+            c.ClipRect(new SKRect(
+                Position.X - Size.X * (Scale.X - 1) / 2 + Margin.Left - BorderThickness,
+                Position.Y - Size.Y * (Scale.Y - 1) / 2 + Margin.Top - BorderThickness,
+                Position.X - Size.X * (Scale.X - 1) / 2 + Size.X * Scale.X + Margin.Left +  BorderThickness,
+                Position.Y - Size.Y * (Scale.Y - 1) / 2 + Size.Y * Scale.Y + Margin.Top + BorderThickness
+                ));
+            
             SKPaint color, borderColor;
             //Set Props
             {
@@ -113,7 +121,7 @@ public class Panel : IControl
             if (IsPressed) OnPointerPressed();
             AlignChildren();
             OnRender?.Invoke(c);
-
+            c.Restore();
             //Keep hovered item on top
             {
                 if (Children == null) return;
@@ -358,7 +366,7 @@ public class Panel : IControl
     /// <param name="control">The new control.</param>
     public Panel Add(IControl control)
     {
-        Children.Add(control);
+        Children?.Add(control);
         OnRender += control.Render();
         OnInput += control.Input();
         return this;
@@ -415,17 +423,18 @@ public class Panel : IControl
 
     public void Remove(IControl control)
     {
-        Children.Remove(control);
+        Children?.Remove(control);
         OnRender -= control.Render();
         OnInput -= control.Input();
     }
 
     public void Clear()
     {
-        for (int i = 0; i < Children.Count; i++)
-        {
-            Remove(Children[i]);
-        }
+        if (Children != null)
+            for (int i = 0; i < Children.Count; i++)
+            {
+                Remove(Children[i]);
+            }
     }
 
     public void TransitionTo(Vector2 targetScale, float animationSpeed = .5f)
