@@ -19,6 +19,8 @@ public class Text : IControl
     public int Opacity { get; set; } = 255;
     public int RenderLayer { get; set; }
     public List<IControl>? Children { get; set; } = null;
+    public IControl? Parent { get; set; }
+    public bool IsHovering { get; set; }
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
     public string Content { get; set; }
