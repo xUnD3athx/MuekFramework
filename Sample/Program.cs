@@ -52,7 +52,8 @@ lockButton.OnUncheck += () =>
 window.Add([
     mainPanel.Add([
         helloButton.AddText("Hello", 24F),
-        lockButton.AddText("Lock", 24F)
+        lockButton.AddText("Lock", 24F),
+        new ScrollBar(Muek.MuekColors.Grey,100,100).Add(new Button(Muek.MuekColors.Black, 500,500))
         ])
 ]);
 
