@@ -7,7 +7,7 @@ var count = 0;
 var customText = new Text("0 click")
 {
     FontSize = 24f,
-    ContentPosition = Muek.ContentPosition.Center,
+    ContentPosition = Muek.ContentPosition.Center
 };
 
 var window = new MuekWindow("MuekFramework Sample", 1000, 800);
