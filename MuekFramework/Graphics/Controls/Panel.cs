@@ -194,6 +194,7 @@ public class Panel : IControl
         IsPressed = false;
     }
 
+    //DO NOT CHANGE THIS IF THERE IS NO PROBLEM!
     private void AlignChildren()
     {
         if (Children == null) return;
