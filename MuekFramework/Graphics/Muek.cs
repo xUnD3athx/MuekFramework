@@ -17,12 +17,30 @@ public static class Muek
     /// <param name="top">The top value of the margin.</param>
     /// <param name="right">The right value of the margin.</param>
     /// <param name="bottom">The bottom value of the margin.</param>
-    public struct Margin(float left, float top, float right, float bottom)
+    public struct Margin
     {
-        public readonly float Left = left;
-        public readonly float Right = right;
-        public readonly float Top = top;
-        public readonly float Bottom = bottom;
+        public readonly float Left;
+        public readonly float Right;
+        public readonly float Top;
+        public readonly float Bottom;
+        public Margin(float left, float top, float right, float bottom)
+        {
+            Left = left;
+            Right = right;
+            Top = top;
+            Bottom = bottom;
+        }
+
+        public Margin(float vertical, float horizontal)
+        {
+            Left = Right = vertical;
+            Top = Bottom = horizontal;
+        }
+
+        public Margin(float margin)
+        {
+            Left = Right = Top = Bottom = margin;
+        }
     }
 
     /// <summary>
