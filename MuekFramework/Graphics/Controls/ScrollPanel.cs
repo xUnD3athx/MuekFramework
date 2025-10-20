@@ -27,8 +27,8 @@ public class ScrollPanel : Panel
         set => _scrollY = float.Clamp(value, 0, 100);
     }
 
-    public float ScrollSpeedX { get; set; } = 50f;
-    public float ScrollSpeedY { get; set; } = 50f;
+    public float ScrollSpeedX { get; set; } = 100f;
+    public float ScrollSpeedY { get; set; } = 100f;
     public ScrollPanel(Muek.MuekColor color, int width, int height, int x = 0, int y = 0) : base(color, width, height, x, y)
     {
         Orientation = Muek.Orientation.Vertical;
@@ -41,6 +41,8 @@ public class ScrollPanel : Panel
         Scroll();
     }
 
+    private float scrollTargetX;
+    private float scrollTargetY;
     private void Scroll()
     {
         OnAlign += (offset,index) =>
@@ -65,31 +67,16 @@ public class ScrollPanel : Panel
             if (e.Type == (uint)SDL.EventType.MouseWheel)
             {
                 if (!IsHovering) return;
-                if (e.Wheel.Y > 0)
-                {
-                    ScrollY -= e.Wheel.Y * ScrollSpeedY / childrenSize.Y * 100;
-                }
-
-                if (e.Wheel.Y < 0)
-                {
-                    ScrollY -= e.Wheel.Y * ScrollSpeedY / childrenSize.Y * 100;
-                }
-
-                if (e.Wheel.X > 0)
-                {
-                    ScrollX += e.Wheel.X * ScrollSpeedX / childrenSize.X * 100;
-                }
-
-                if (e.Wheel.X < 0)
-                {
-                    ScrollX += e.Wheel.X * ScrollSpeedX / childrenSize.X * 100;
-                }
+                scrollTargetY = ScrollY - e.Wheel.Y * ScrollSpeedY / childrenSize.Y * 100;
+                scrollTargetX = ScrollX + e.Wheel.X * ScrollSpeedX / childrenSize.X * 100;
             }
         };
         OnTopRender += c =>
         {
             if (ShowScrollBar)
             {
+                ScrollY = float.Lerp(ScrollY, scrollTargetY, AnimationSpeed);
+                ScrollX = float.Lerp(ScrollX, scrollTargetX, AnimationSpeed);
                 //Render Scroll Bar
                 {
                     //X
