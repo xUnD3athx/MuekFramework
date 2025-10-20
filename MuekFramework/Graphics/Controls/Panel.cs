@@ -26,7 +26,8 @@ public class Panel : IControl
     public float AnimationSpeed { get; set; } = .05f;
     public Vector2 HoverScale { get; set; } = new(1f, 1f);
     public bool IsAnimationDisabled { get; set; } = true;
-    public List<IControl> Children { get; set; } = new();
+    public Muek.ContentPosition ContentPosition { get; set; }
+    public List<IControl>? Children { get; set; } = new();
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
     protected bool IsHovering { get; set; }
@@ -115,13 +116,12 @@ public class Panel : IControl
 
             //Keep hovered item on top
             {
+                if (Children == null) return;
                 foreach (var child in Children)
                 {
-                    if (child.RenderLayer == 1)
-                    {
-                        OnRender -= child.Render();
-                        OnRender += child.Render();
-                    }
+                    if (child.RenderLayer != 1) continue;
+                    OnRender -= child.Render();
+                    OnRender += child.Render();
                 }
             }
         };
@@ -196,6 +196,7 @@ public class Panel : IControl
 
     private void AlignChildren()
     {
+        if (Children == null) return;
         foreach (var control in Children)
         {
             Vector2 offset = default;
@@ -203,10 +204,146 @@ public class Panel : IControl
             {
                 var c = Children[Children.IndexOf(control) - 1];
                 if (Orientation == Muek.Orientation.Vertical)
-                    offset = new Vector2(c.Position.X + c.Size.X + c.Margin.Right - Position.X - Margin.Left, 0);
+                    offset = new Vector2(c.Position.X + c.Size.X + c.Margin.Right - Position.X - Margin.Left + c.Margin.Right,0);
                 if (Orientation == Muek.Orientation.Horizontal)
-                    offset = new Vector2(0, c.Position.Y + c.Size.Y + c.Margin.Bottom - Position.Y - Margin.Top);
+                    offset = new Vector2(0, c.Position.Y + c.Size.Y + c.Margin.Bottom - Position.Y - Margin.Top + c.Margin.Bottom);
             }
+
+            {
+                var childrenSize = Vector2.Zero;
+                foreach (var child in Children)
+                {
+                    switch (Orientation)
+                    {
+                        case Muek.Orientation.Vertical:
+                            childrenSize.X += child.Size.X;
+                            break;
+                        case Muek.Orientation.Horizontal:
+                            childrenSize.Y += child.Size.Y;
+                            break;
+                    }
+
+                    childrenSize.X += child.Margin.Left + child.Margin.Right;
+                    childrenSize.Y += child.Margin.Top + child.Margin.Bottom;
+                }
+
+                switch (ContentPosition)
+                {
+                    case Muek.ContentPosition.TopLeft:
+                        break;
+                    case Muek.ContentPosition.Top:
+                        if(Orientation == Muek.Orientation.Vertical)
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.X += Size.X / 2 - childrenSize.X / 2;
+                            }
+                        if (Orientation == Muek.Orientation.Horizontal) 
+                            offset.X += Size.X / 2 - control.Size.X / 2;
+                        break;
+                    case Muek.ContentPosition.TopRight:
+                        if(Orientation == Muek.Orientation.Vertical)
+                            if(Children.IndexOf(control) == 0)
+                            {
+                                offset.X += Size.X - childrenSize.X;
+                            }
+                        if (Orientation == Muek.Orientation.Horizontal) 
+                            offset.X += Size.X - control.Size.X - control.Margin.Right - control.Margin.Left;
+                        break;
+                    case Muek.ContentPosition.Left:
+                        if (Orientation == Muek.Orientation.Vertical)
+                            offset.Y += Size.Y / 2 - control.Size.Y / 2 - control.Margin.Top;
+                        if(Orientation == Muek.Orientation.Horizontal)
+                            if(Children.IndexOf(control) == 0)
+                            {
+                                offset.Y += Size.Y / 2 - childrenSize.Y / 2;
+                            }
+                        break;
+                    case Muek.ContentPosition.Center:
+                        if (Orientation == Muek.Orientation.Vertical)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.X += Size.X / 2 - childrenSize.X / 2;
+                            }
+                            offset.Y += Size.Y / 2 - control.Size.Y / 2 - control.Margin.Top;
+                        }
+                        if(Orientation == Muek.Orientation.Horizontal)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.Y += Size.Y / 2 - childrenSize.Y / 2;
+                            }
+                            offset.X += Size.X / 2 - control.Size.X / 2 - control.Margin.Left;;
+                        }
+                        break;
+                    case Muek.ContentPosition.Right:
+                        if (Orientation == Muek.Orientation.Vertical)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.X += Size.X - childrenSize.X;
+                            }
+                            offset.Y += Size.Y / 2 - control.Size.Y / 2 - control.Margin.Top;
+                        }
+                        if(Orientation == Muek.Orientation.Horizontal)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.Y += Size.Y / 2 - childrenSize.Y / 2;
+                            }
+                            offset.X += Size.X - control.Size.X - control.Margin.Right - control.Margin.Left;
+                        }
+                        break;
+                    case Muek.ContentPosition.BottomLeft:
+                        if (Orientation == Muek.Orientation.Vertical)
+                            offset.Y += Size.Y - control.Size.Y - control.Margin.Top - control.Margin.Bottom;
+                        if(Orientation == Muek.Orientation.Horizontal)
+                            if(Children.IndexOf(control) == 0)
+                            {
+                                offset.Y += Size.Y - childrenSize.Y;
+                            }
+                        break;
+                    case Muek.ContentPosition.Bottom:
+                        if (Orientation == Muek.Orientation.Vertical)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.X += Size.X / 2 - childrenSize.X / 2;
+                            }
+
+                            offset.Y += Size.Y - control.Size.Y - control.Margin.Top - control.Margin.Bottom;
+                        }
+                        if(Orientation == Muek.Orientation.Horizontal)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.Y += Size.Y - childrenSize.Y;
+                            }
+                            offset.X += Size.X / 2 - control.Size.X / 2 - control.Margin.Left;
+                        }
+                        break;
+                    case Muek.ContentPosition.BottomRight:
+                        if (Orientation == Muek.Orientation.Vertical)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.X += Size.X - childrenSize.X;
+                            }
+
+                            offset.Y += Size.Y - control.Size.Y - control.Margin.Top - control.Margin.Bottom;
+                        }
+                        if(Orientation == Muek.Orientation.Horizontal)
+                        {
+                            if (Children.IndexOf(control) == 0)
+                            {
+                                offset.Y += Size.Y - childrenSize.Y;
+                            }
+                            offset.X += Size.X - control.Size.X - control.Margin.Right - control.Margin.Left;
+                        }
+                        break;
+                }
+            }
+
             control.Position = new Vector2(
                 Position.X + offset.X + Margin.Left,
                 Position.Y + offset.Y + Margin.Top);
