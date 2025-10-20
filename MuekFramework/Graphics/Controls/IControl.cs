@@ -30,6 +30,8 @@ public interface IControl
     /// The children of the control.
     /// </summary>
     public List<IControl>? Children { get; set; }
+    protected internal IControl? Parent { get; set; }
+    public bool IsHovering { get; set; }
     public Muek.RenderDelegate Render();
     public Muek.InputDelegate Input();
     public event Muek.RenderDelegate? OnRender;

@@ -29,9 +29,10 @@ public class Panel : IControl
     public Muek.ContentPosition ContentPosition { get; set; }
     public bool ClipChildren { get; set; } = true;
     public List<IControl>? Children { get; set; } = new();
+    public IControl? Parent { get; set; }
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
-    protected bool IsHovering { get; set; }
+    public bool IsHovering { get; set; }
     protected bool IsPressed { get; set; }
 
     /// <summary>
@@ -116,7 +117,8 @@ public class Panel : IControl
                     mousePosY > Position.Y - Size.Y * (Scale.Y - 1) / 2 + Margin.Top &&
                     mousePosY < Position.Y - Size.Y * (Scale.Y - 1) / 2 + Size.Y * Scale.Y + Margin.Top)
                 {
-                    OnHover();
+                    if(Parent == null || Parent.IsHovering) OnHover();
+                    else OnLeave();
                 }
                 else OnLeave();
             }
@@ -205,7 +207,7 @@ public class Panel : IControl
     }
 
     //DO NOT CHANGE THIS IF THERE IS NO PROBLEM!
-    private void AlignChildren()
+    protected virtual void AlignChildren()
     {
         if (Children == null) return;
         foreach (var control in Children)
@@ -233,7 +235,6 @@ public class Panel : IControl
                             childrenSize.Y += child.Size.Y;
                             break;
                     }
-
                     childrenSize.X += child.Margin.Left + child.Margin.Right;
                     childrenSize.Y += child.Margin.Top + child.Margin.Bottom;
                 }
@@ -369,6 +370,7 @@ public class Panel : IControl
     public Panel Add(IControl control)
     {
         Children?.Add(control);
+        control.Parent = this;
         OnRender += control.Render();
         OnInput += control.Input();
         return this;
@@ -426,6 +428,7 @@ public class Panel : IControl
     public void Remove(IControl control)
     {
         Children?.Remove(control);
+        control.Parent = null;
         OnRender -= control.Render();
         OnInput -= control.Input();
     }
