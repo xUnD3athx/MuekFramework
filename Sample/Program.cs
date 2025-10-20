@@ -18,14 +18,12 @@ var mainPanel = new Panel(Muek.MuekColors.White, 800, 600, 100, 100)
     AnimationSpeed = .05F,
     HoverScale = new Vector2(1.05F)
 };
-window.Add(mainPanel);
 var helloButton = new Button(Muek.MuekColors.Muek, 200, 200)
 {
     HoverColor = Muek.MuekColors.LightMuek,
     PressedColor = Muek.MuekColors.DarkMuek,
 };
-mainPanel.Add(helloButton);
-helloButton.AddText("Hello", 24F);
+
 helloButton.OnClick += () =>
 {
     if (count == 0)
@@ -41,8 +39,6 @@ var lockButton = new ToggleButton(Muek.MuekColors.MuekBlue, 100, 100)
     PressedColor = Muek.MuekColors.DarkMuekBlue,
     CheckedColor = Muek.MuekColors.MuekRed
 };
-mainPanel.Add(lockButton);
-lockButton.AddText("Lock", 24F);
 lockButton.OnCheck += () =>
 {
     helloButton.IsDisabled = true;
@@ -51,5 +47,12 @@ lockButton.OnUncheck += () =>
 {
     helloButton.IsDisabled = false;
 };
+
+window.Add([
+    mainPanel.Add([
+        helloButton.AddText("Hello", 24F),
+        lockButton.AddText("Lock", 24F)
+        ])
+]);
 
 window.Run();
