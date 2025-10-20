@@ -27,8 +27,8 @@ public class ScrollPanel : Panel
         set => _scrollY = float.Clamp(value, 0, 100);
     }
 
-    public float ScrollSpeedX { get; set; } = 10f;
-    public float ScrollSpeedY { get; set; } = 10f;
+    public float ScrollSpeedX { get; set; } = 50f;
+    public float ScrollSpeedY { get; set; } = 50f;
     public ScrollPanel(Muek.MuekColor color, int width, int height, int x = 0, int y = 0) : base(color, width, height, x, y)
     {
         Orientation = Muek.Orientation.Vertical;
@@ -61,27 +61,28 @@ public class ScrollPanel : Panel
         };
         OnInput += e =>
         {
+            var childrenSize = GetChildrenSize();
             if (e.Type == (uint)SDL.EventType.MouseWheel)
             {
                 if (!IsHovering) return;
                 if (e.Wheel.Y > 0)
                 {
-                    ScrollY -= e.Wheel.Y * ScrollSpeedY;
+                    ScrollY -= e.Wheel.Y * ScrollSpeedY / childrenSize.Y * 100;
                 }
 
                 if (e.Wheel.Y < 0)
                 {
-                    ScrollY -= e.Wheel.Y * ScrollSpeedY;
+                    ScrollY -= e.Wheel.Y * ScrollSpeedY / childrenSize.Y * 100;
                 }
 
                 if (e.Wheel.X > 0)
                 {
-                    ScrollX += e.Wheel.X * ScrollSpeedX;
+                    ScrollX += e.Wheel.X * ScrollSpeedX / childrenSize.X * 100;
                 }
 
                 if (e.Wheel.X < 0)
                 {
-                    ScrollX += e.Wheel.X * ScrollSpeedX;
+                    ScrollX += e.Wheel.X * ScrollSpeedX / childrenSize.X * 100;
                 }
             }
         };
@@ -172,14 +173,13 @@ public class ScrollPanel : Panel
             {
                 case Muek.Orientation.Horizontal:
                     childrenSize.X += child.Size.X;
+                    childrenSize.X += child.Margin.Left + child.Margin.Right;
                     break;
                 case Muek.Orientation.Vertical:
                     childrenSize.Y += child.Size.Y;
+                    childrenSize.Y += child.Margin.Top + child.Margin.Bottom;
                     break;
             }
-
-            childrenSize.X += child.Margin.Left + child.Margin.Right;
-            childrenSize.Y += child.Margin.Top + child.Margin.Bottom;
         }
         return childrenSize;
     }

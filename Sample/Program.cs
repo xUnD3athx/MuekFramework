@@ -48,17 +48,26 @@ lockButton.OnUncheck += () =>
 {
     helloButton.IsDisabled = false;
 };
+var index = 0;
+var scrollPanel = new ScrollPanel(100, 200);
+var addButton = new Button(Muek.MuekColors.MuekBlue, 80, 50)
+{
+    HoverColor = Muek.MuekColors.LightMuekBlue,
+    PressedColor = Muek.MuekColors.DarkMuekBlue
+};
+addButton.AddText("+",24F);
+addButton.OnClick += () =>
+{
+    scrollPanel.Remove(addButton);
+    scrollPanel.Add(new Button(Muek.MuekColors.MuekBlue, 80, 50).AddText(index++.ToString()));
+    scrollPanel.Add(addButton);
+};
 
 window.Add([
     mainPanel.Add([
         helloButton.AddText("Hello", 24F),
         lockButton.AddText("Lock", 24F),
-        new ScrollPanel(60,200).Add([
-            new Button(Muek.MuekColors.Muek,50,50).AddText("1"),
-            new Button(Muek.MuekColors.Muek,50,50).AddText("2"),
-            new Button(Muek.MuekColors.Muek,50,50).AddText("3"),
-            new Button(Muek.MuekColors.Muek,50,50).AddText("4")
-        ])
+        scrollPanel.Add(addButton)
         ])
 ]);
 
