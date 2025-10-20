@@ -31,6 +31,7 @@ public class Panel : IControl
     public IControl? Parent { get; set; }
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
+    protected event Muek.RenderDelegate? OnTopRender;
     public delegate Vector2 AlignDelegate(Vector2 offset,int index);
     public event AlignDelegate? OnAlign;
     public bool IsHovering { get; set; }
@@ -137,6 +138,7 @@ public class Panel : IControl
                     OnRender += child.Render();
                 }
             }
+            OnTopRender?.Invoke(c);
         };
     }
 
