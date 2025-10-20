@@ -31,7 +31,7 @@ public class Panel : IControl
     public IControl? Parent { get; set; }
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
-    public delegate Vector2 AlignDelegate(Vector2 offset);
+    public delegate Vector2 AlignDelegate(Vector2 offset,int index);
     public event AlignDelegate? OnAlign;
     public bool IsHovering { get; set; }
     protected bool IsPressed { get; set; }
@@ -356,7 +356,7 @@ public class Panel : IControl
                         break;
                 }
             }
-            Vector2? o = OnAlign?.Invoke(offset);
+            Vector2? o = OnAlign?.Invoke(offset,Children.IndexOf(control));
             if(o == null) control.Position = new Vector2(
                 Position.X + Margin.Left + offset.X,
                 Position.Y + Margin.Top + offset.Y);
