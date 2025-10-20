@@ -3,7 +3,7 @@ using SDL3;
 
 namespace MuekFramework.Graphics.Controls;
 
-public class ScrollBar : Panel
+public class ScrollPanel : Panel
 {
     private float _scrollX;
     private float _scrollY;
@@ -22,12 +22,12 @@ public class ScrollBar : Panel
 
     public float ScrollSpeedX { get; set; } = 10f;
     public float ScrollSpeedY { get; set; } = 10f;
-    public ScrollBar(Muek.MuekColor color, int width, int height, int x = 0, int y = 0) : base(color, width, height, x, y)
+    public ScrollPanel(Muek.MuekColor color, int width, int height, int x = 0, int y = 0) : base(color, width, height, x, y)
     {
         Orientation = Muek.Orientation.Vertical;
         Scroll();
     }
-    public ScrollBar(int width, int height, int x = 0, int y = 0) : base(Muek.MuekColors.Transparent, width, height, x, y)
+    public ScrollPanel(int width, int height, int x = 0, int y = 0) : base(Muek.MuekColors.Transparent, width, height, x, y)
     {
         Orientation = Muek.Orientation.Vertical;
         Scroll();
@@ -37,22 +37,7 @@ public class ScrollBar : Panel
     {
         OnAlign += (offset,index) =>
         {
-            var childrenSize = Vector2.Zero;
-            if (Children == null) return Vector2.Zero;
-            foreach (var child in Children)
-            {
-                switch (Orientation)
-                {
-                    case Muek.Orientation.Horizontal:
-                        childrenSize.X += child.Size.X;
-                        break;
-                    case Muek.Orientation.Vertical:
-                        childrenSize.Y += child.Size.Y;
-                        break;
-                }
-                childrenSize.X += child.Margin.Left + child.Margin.Right;
-                childrenSize.Y += child.Margin.Top + child.Margin.Bottom;
-            }
+            var childrenSize = GetChildrenSize();
             if (childrenSize.X < Size.X)
             {
                 ScrollX = 0;
@@ -92,8 +77,28 @@ public class ScrollBar : Panel
         };
         OnRender += c =>
         {
-            
+            var childrenSize = GetChildrenSize();
         };
+    }
+
+    private Vector2 GetChildrenSize()
+    {
+        var childrenSize = Vector2.Zero;
+        foreach (var child in Children)
+        {
+            switch (Orientation)
+            {
+                case Muek.Orientation.Horizontal:
+                    childrenSize.X += child.Size.X;
+                    break;
+                case Muek.Orientation.Vertical:
+                    childrenSize.Y += child.Size.Y;
+                    break;
+            }
+            childrenSize.X += child.Margin.Left + child.Margin.Right;
+            childrenSize.Y += child.Margin.Top + child.Margin.Bottom;
+        }
+        return childrenSize;
     }
     
 }
