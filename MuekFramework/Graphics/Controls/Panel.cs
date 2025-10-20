@@ -27,6 +27,7 @@ public class Panel : IControl
     public Vector2 HoverScale { get; set; } = new(1f, 1f);
     public bool IsAnimationDisabled { get; set; } = true;
     public Muek.ContentPosition ContentPosition { get; set; }
+    public bool ClipChildren { get; set; } = true;
     public List<IControl>? Children { get; set; } = new();
     public event Muek.RenderDelegate? OnRender;
     public event Muek.InputDelegate? OnInput;
@@ -55,12 +56,13 @@ public class Panel : IControl
         return (c) =>
         {
             c.Save();
-            c.ClipRect(new SKRect(
-                Position.X - Size.X * (Scale.X - 1) / 2 + Margin.Left - BorderThickness,
-                Position.Y - Size.Y * (Scale.Y - 1) / 2 + Margin.Top - BorderThickness,
-                Position.X - Size.X * (Scale.X - 1) / 2 + Size.X * Scale.X + Margin.Left +  BorderThickness,
-                Position.Y - Size.Y * (Scale.Y - 1) / 2 + Size.Y * Scale.Y + Margin.Top + BorderThickness
-                ));
+            if(ClipChildren)
+                c.ClipRect(new SKRect(
+                    Position.X - Size.X * (Scale.X - 1) / 2 + Margin.Left - BorderThickness,
+                    Position.Y - Size.Y * (Scale.Y - 1) / 2 + Margin.Top - BorderThickness,
+                    Position.X - Size.X * (Scale.X - 1) / 2 + Size.X * Scale.X + Margin.Left +  BorderThickness,
+                    Position.Y - Size.Y * (Scale.Y - 1) / 2 + Size.Y * Scale.Y + Margin.Top + BorderThickness
+                    ));
             
             SKPaint color, borderColor;
             //Set Props
