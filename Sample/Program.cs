@@ -53,7 +53,12 @@ window.Add([
     mainPanel.Add([
         helloButton.AddText("Hello", 24F),
         lockButton.AddText("Lock", 24F),
-        new ScrollBar(Muek.MuekColors.Grey,100,100).Add(new Button(Muek.MuekColors.Black, 500,500))
+        new ScrollBar(60,200).Add([
+            new Button(Muek.MuekColors.Muek,50,50).AddText("1"),
+            new Button(Muek.MuekColors.Muek,50,50).AddText("2"),
+            new Button(Muek.MuekColors.Muek,50,50).AddText("3"),
+            new Button(Muek.MuekColors.Muek,50,50).AddText("4")
+        ])
         ])
 ]);
 
