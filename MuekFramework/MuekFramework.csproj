@@ -10,7 +10,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
       <PackageReference Include="SDL3-CS" Version="3.2.24" />
       <PackageReference Include="SDL3-CS.Native" Version="3.2.24" />
       <PackageReference Include="SDL3-CS.Native.Image" Version="3.2.4" />

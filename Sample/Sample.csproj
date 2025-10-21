@@ -8,7 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\MuekFramework\MuekFramework.csproj" />
+        <ProjectReference Include="..\MuekFramework\MuekFramework.csproj" />
+        <Content Include="..\MuekResource\MuekLogo.svg" >
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
     </ItemGroup>
 
 </Project>

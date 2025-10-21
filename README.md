@@ -1,4 +1,5 @@
 ﻿# Muek Framework
+<img src="MuekResource/MuekLogo.svg">
 Muek Framework is a framework to build GUI application.<br/>
 [Muek](https://github.com/MuekDev/Muek) <del>is using</del> (will use actually) this framework.<br/>
 ## Muek Framework is not complete now!

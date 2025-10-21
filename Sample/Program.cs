@@ -10,7 +10,7 @@ var customText = new Text("0 click")
     ContentPosition = Muek.ContentPosition.Center
 };
 
-var window = new MuekWindow("MuekFramework Sample", 1000, 800);
+var window = new MuekWindow("MuekFramework Sample", 1000, 800,"MuekLogo.svg");
 var mainPanel = new Panel(Muek.MuekColors.White, 800, 600, 100, 100)
 {
     BorderRadius = new Vector2(10F),

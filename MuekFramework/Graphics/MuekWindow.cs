@@ -22,7 +22,8 @@ public class MuekWindow
     /// <param name="title">This is the title of the window</param>
     /// <param name="width">This is the width of the window</param>
     /// <param name="height">This is the height of the window</param>
-    public MuekWindow(string title, int width, int height)
+    /// <param name="iconPath"></param>
+    public MuekWindow(string title, int width, int height,string? iconPath = null)
     {
         Title = title;
         Width = width;
@@ -41,6 +42,15 @@ public class MuekWindow
         {
             SDL.LogError(SDL.LogCategory.Application, $"Error creating window: {SDL.GetError()}");
         }
+        
+        if (iconPath is null) return;
+        var icon = Image.Load(iconPath);
+        if (!SDL.SetWindowIcon(Window, icon))
+        {
+            SDL.LogError(SDL.LogCategory.System, $"Failed to set icon: {SDL.GetError()}");
+        }
+
+        SDL.Free(icon);
     }
 
     /// <summary>
